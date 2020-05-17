@@ -19,6 +19,22 @@ class NumberInput():
         rect.top = self.__position[1]
         rect.size = self.__size
         
+    def render(self):
+        textBlock = self.__font.render(self.__strValue, True, (74, 74, 74))
+        rect = textBlock.get_rect()
+        rect.left = self._position[0]
+        rect.top = self.__position[1]
+        rect.size = self.__size 
+        
+        '''
+        return {
+                "fondo": rect,
+                "texto"
+            }
+        '''
+        
+        return (rect, textBlock)
+        
     #Getter y Setter
         
     def value(self, val=None):
@@ -112,7 +128,13 @@ class mainApp():   #MainApp refresca la imagen
                 if event.type == QUIT:
                     self.__on_close()
     #Aquí es donde refresca la imagen
+        #Pintamos el termómetro en su posición
             self.__screen.blit(self.termometro.custome, (50, 34))
+        #Pintamos el cuadro texto
+            text = self.entrada.render()  #Obtenemos rectángulo blanco y foto de texto  lo asignamos a la variable text
+            pygame.draw.rect(self._screen, (255, 255, 255), text[0]) #Creamos el rectángulo blanco con sus datos (posición y tamaño) text[0]
+            self.__screen.blit(text[1], self.entrada.pos()) #Pintamos la foto del texto (text[1])
+            
             pygame.display.flip()
         
 if __name__ == '__main__':
